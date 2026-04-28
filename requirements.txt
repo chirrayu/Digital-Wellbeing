@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+motor
+aio-pika
+opencv-python-headless
+imagehash
+faiss-cpu
+python-multipart
+Pillow
+numpy
+resend
+google-cloud-storage
+google-cloud-vision
+google-cloud-aiplatform
