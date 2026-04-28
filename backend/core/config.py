@@ -9,7 +9,10 @@ class Settings(BaseSettings):
         "RABBITMQ_URL", "amqp://guest:guest@localhost:5672/"
     )
     MONGO_URL: str = os.getenv(
-        "MONGO_URL", "mongodb://admin:password@localhost:27017"
+        "MONGO_URL", "mongodb+srv://chirrayusharma:A6qLORsbn3kbGHV4@cluster0.tzexfrk.mongodb.net/"
+    )
+    RESEND_API_KEY: str = os.getenv(
+        "RESEND_API_KEY", "re_bdHCxEBp_Ab1E4QEZtNJ5a8J92yuMAoDj"
     )
     MONGO_DB_NAME: str = "shieldstream"
     UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "./uploads")
