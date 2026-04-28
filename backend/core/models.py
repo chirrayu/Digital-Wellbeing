@@ -76,8 +76,10 @@ class ContentDocument(BaseModel):
     owner_id: str
     file_path: str
     mime_type: str
+    gcs_uri: Optional[str] = None
     hash_value: Optional[str] = None
     frame_count: int = 0
+    metadata: Dict[str, Any] = Field(default_factory=dict)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 

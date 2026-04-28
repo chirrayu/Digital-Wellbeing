@@ -21,12 +21,12 @@ from core.logging_config import get_logger
 log = get_logger("worker.monitor")
 
 PLATFORMS = ["YouTube", "TikTok", "X", "Dailymotion", "Facebook"]
-FAKE_URLS = {
-    "YouTube": "https://youtube.com/watch?v=pirated_{fid}",
-    "TikTok": "https://tiktok.com/@user/video/{fid}",
-    "X": "https://x.com/user/status/{fid}",
-    "Dailymotion": "https://dailymotion.com/video/{fid}",
-    "Facebook": "https://facebook.com/watch/{fid}",
+PLATFORM_URL_TEMPLATES = {
+    "YouTube": "https://example.com/{platform}/watch/{fid}",
+    "TikTok": "https://example.com/{platform}/video/{fid}",
+    "X": "https://example.com/{platform}/status/{fid}",
+    "Dailymotion": "https://example.com/{platform}/video/{fid}",
+    "Facebook": "https://example.com/{platform}/watch/{fid}",
 }
 
 # Track files we have already emitted to avoid duplicate detections
@@ -54,7 +54,7 @@ async def scan_once():
 
     platform = random.choice(PLATFORMS)
     fid = chosen.split(".")[0][:8]
-    url = FAKE_URLS[platform].format(fid=fid)
+    url = PLATFORM_URL_TEMPLATES[platform].format(platform=platform.lower(), fid=fid)
 
     # Deduplication in MongoDB
     db = get_db()

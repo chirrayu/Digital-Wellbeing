@@ -11,6 +11,11 @@ x-backend: &backend-base
     RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
     MONGO_URL: mongodb://admin:password@mongodb:27017
     UPLOAD_DIR: /app/uploads
+    # Optional Google Cloud settings
+    GCP_PROJECT: ""
+    GCP_REGION: "us-central1"
+    GCS_BUCKET_NAME: ""
+    VERTEX_AI_ENDPOINT_ID: ""
   volumes:
     - uploads_data:/app/uploads
 
@@ -75,6 +80,10 @@ services:
   monitor-worker:
     <<: *backend-base
     command: python -m services.monitor.worker
+
+  vision-worker:
+    <<: *backend-base
+    command: python -m services.vision.worker
 
 volumes:
   rabbitmq_data:

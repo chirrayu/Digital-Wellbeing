@@ -7,10 +7,12 @@ Stores violation records in MongoDB.
 """
 
 import asyncio
+import resend
 from core.events import event_bus
 from core.db import connect_to_mongo, close_mongo_connection, get_db
 from core.models import ViolationDocument, RIGHTS_EVALUATED
 from core.logging_config import get_logger
+from core.config import settings
 
 log = get_logger("worker.violation")
 
@@ -56,6 +58,23 @@ async def on_rights_evaluated(payload: dict):
         doc.platform,
         doc.similarity_score,
     )
+
+    if settings.RESEND_API_KEY and settings.RESEND_EMAIL_FROM and settings.RESEND_EMAIL_TO:
+        try:
+            resend.api_key = settings.RESEND_API_KEY
+            resend.Emails.send({
+                "from": settings.RESEND_EMAIL_FROM,
+                "to": settings.RESEND_EMAIL_TO,
+                "subject": f"Piracy Violation: {doc.platform}",
+                "html": f"<p>A piracy violation was detected on <strong>{doc.platform}</strong>.</p><p>Content ID: {doc.content_id}<br>Similarity Score: {doc.similarity_score}%<br>Violation ID: {doc.violation_id}</p>"
+            })
+            log.info("📧 Email notification sent for violation_id=%s", doc.violation_id)
+        except Exception as e:
+            log.error("Failed to send Resend email: %s", e)
+    else:
+        log.info(
+            "Resend notification skipped: RESEND_API_KEY, RESEND_EMAIL_FROM, or RESEND_EMAIL_TO is not configured."
+        )
 
 
 async def main():

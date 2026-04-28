@@ -12,6 +12,7 @@ Applies a simple rule:
 import asyncio
 from core.events import event_bus
 from core.config import settings
+from core.google_cloud import predict_vertex_ai
 from core.models import (
     RightsEvaluatedEvent,
     MATCH_FOUND,
@@ -32,6 +33,25 @@ async def on_match_found(payload: dict):
     source_url = payload.get("source_url", "")
 
     decision = "VIOLATION" if score >= VIOLATION_THRESHOLD else "AUTHORIZED"
+
+    if settings.VERTEX_AI_ENDPOINT_ID:
+        try:
+            prediction = predict_vertex_ai(
+                endpoint_id=settings.VERTEX_AI_ENDPOINT_ID,
+                instances=[
+                    {
+                        "detection_id": detection_id,
+                        "content_id": content_id,
+                        "similarity_score": score,
+                        "platform": platform,
+                        "source_url": source_url,
+                    }
+                ],
+            )
+            if isinstance(prediction, list) and prediction:
+                decision = str(prediction[0]).upper()
+        except Exception as exc:
+            log.warning("Vertex AI evaluation failed: %s — falling back to threshold.", exc)
 
     log.info(
         "⚖️  Rights decision  detection=%s  score=%.1f%%  → %s",

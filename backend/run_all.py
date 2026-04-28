@@ -48,8 +48,9 @@ if __name__ == "__main__":
         procs.append(spawn(f"{py} -m services.rights.worker", "Rights Worker"))
         procs.append(spawn(f"{py} -m services.violation.worker", "Violation Worker"))
         procs.append(spawn(f"{py} -m services.monitor.worker", "Monitor Worker"))
+        procs.append(spawn(f"{py} -m services.vision.worker", "Vision Worker"))
 
-        print("\n✅ All services started!")
+        print("\nAll services started!")
         print("   Upload API  →  http://localhost:8000/docs")
         print("   Violation   →  http://localhost:8001/docs")
         print("   RabbitMQ UI →  http://localhost:15672")
