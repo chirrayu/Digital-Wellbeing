@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShieldStream — Content Protection Platform</title>
+  <meta name="description" content="AI-powered content protection and anti-piracy monitoring platform for sports and media rights holders." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" fill="url(#brandGrad)"/><defs><linearGradient id="brandGrad" x1="3" y1="2" x2="21" y2="23" gradientUnits="userSpaceOnUse"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+      </div>
+      <div>
+        <div class="brand-name">ShieldStream</div>
+        <div class="brand-sub">Protection Platform</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">OVERVIEW</div>
+      <a href="#" class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="upload" onclick="navigate('upload')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Content
+      </a>
+
+      <div class="nav-section-label">MONITORING</div>
+      <a href="#" class="nav-item" data-page="detection" onclick="navigate('detection')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Live Detection
+        <span class="nav-badge">12</span>
+      </a>
+      <a href="#" class="nav-item" data-page="violations" onclick="navigate('violations')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Violations
+        <span class="nav-badge danger">47</span>
+      </a>
+
+      <div class="nav-section-label">INSIGHTS</div>
+      <a href="#" class="nav-item" data-page="analytics" onclick="navigate('analytics')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="nav-item" data-page="propagation" onclick="navigate('propagation')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Propagation Graph
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="monitoring-status">
+        <span class="status-dot pulse"></span>
+        <span>Monitoring Active</span>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar">SP</div>
+        <div>
+          <div class="user-name">Sports Plus</div>
+          <div class="user-role">Rights Holder</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="breadcrumb" id="breadcrumb">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search content, violations..." />
+        </div>
+        <button class="icon-btn" id="alertBell" onclick="toggleAlerts()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="bell-badge">5</span>
+        </button>
+        <button class="btn-primary" onclick="navigate('upload')">+ Upload</button>
+      </div>
+    </header>
+
+    <!-- Alert Dropdown -->
+    <div class="alert-dropdown" id="alertDropdown">
+      <div class="alert-header">
+        <span>Notifications</span>
+        <button onclick="toggleAlerts()">✕</button>
+      </div>
+      <div class="alert-list">
+        <div class="alert-item danger">
+          <div class="alert-dot"></div>
+          <div><strong>Viral spread detected</strong><br><small>IPL Final highlights — 3 platforms</small></div>
+          <span class="alert-time">2m ago</span>
+        </div>
+        <div class="alert-item warning">
+          <div class="alert-dot"></div>
+          <div><strong>New violation flagged</strong><br><small>TikTok — similarity 94%</small></div>
+          <span class="alert-time">8m ago</span>
+        </div>
+        <div class="alert-item danger">
+          <div class="alert-dot"></div>
+          <div><strong>Takedown pending</strong><br><small>YouTube — awaiting confirmation</small></div>
+          <span class="alert-time">15m ago</span>
+        </div>
+        <div class="alert-item success">
+          <div class="alert-dot"></div>
+          <div><strong>Content secured</strong><br><small>Match highlights watermarked</small></div>
+          <span class="alert-time">1h ago</span>
+        </div>
+        <div class="alert-item warning">
+          <div class="alert-dot"></div>
+          <div><strong>Review needed</strong><br><small>X post — region rights unclear</small></div>
+          <span class="alert-time">2h ago</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pages -->
+    <div id="page-dashboard" class="page active"><div id="dashboard-content"></div></div>
+    <div id="page-upload" class="page"><div id="upload-content"></div></div>
+    <div id="page-detection" class="page"><div id="detection-content"></div></div>
+    <div id="page-violations" class="page"><div id="violations-content"></div></div>
+    <div id="page-analytics" class="page"><div id="analytics-content"></div></div>
+    <div id="page-propagation" class="page"><div id="propagation-content"></div></div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="pages/dashboard.js"></script>
+  <script src="pages/upload.js"></script>
+  <script src="pages/detection.js"></script>
+  <script src="pages/violations.js"></script>
+  <script src="pages/analytics.js"></script>
+  <script src="pages/propagation.js"></script>
+  <script>
+    // Boot
+    window.addEventListener('DOMContentLoaded', () => {
+      navigate('dashboard');
+      startLiveCounters();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+version: '3.8'
+
+x-backend: &backend-base
+  build: .
+  depends_on:
+    rabbitmq:
+      condition: service_healthy
+    mongodb:
+      condition: service_started
+  environment: &backend-env
+    RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+    MONGO_URL: mongodb://admin:password@mongodb:27017
+    UPLOAD_DIR: /app/uploads
+  volumes:
+    - uploads_data:/app/uploads
+
+services:
+  # ─── Infrastructure ──────────────────────────────────────────
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+
+  # ─── APIs ─────────────────────────────────────────────────────
+  upload-api:
+    <<: *backend-base
+    command: uvicorn services.upload.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+
+  violation-api:
+    <<: *backend-base
+    command: uvicorn services.violation.main:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+
+  # ─── Workers ──────────────────────────────────────────────────
+  fingerprint-worker:
+    <<: *backend-base
+    command: python -m services.fingerprint.worker
+
+  matching-worker:
+    <<: *backend-base
+    command: python -m services.matching.worker
+
+  rights-worker:
+    <<: *backend-base
+    command: python -m services.rights.worker
+
+  violation-worker:
+    <<: *backend-base
+    command: python -m services.violation.worker
+
+  monitor-worker:
+    <<: *backend-base
+    command: python -m services.monitor.worker
+
+volumes:
+  rabbitmq_data:
+  mongodb_data:
+  uploads_data:
